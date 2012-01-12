@@ -217,6 +217,9 @@
                             <exclude>**/logging.properties</exclude>
                             <exclude>**/*.js</exclude>
                             <exclude>**/*.swf</exclude>
+                            <exclude>.idea/**</exclude>
+                            <exclude>**/*.md</exclude>
+                            <exclude>**/pom.xml.releaseBackup</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
