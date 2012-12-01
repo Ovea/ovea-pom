@@ -237,7 +237,7 @@
                         <dependency>
                             <groupId>com.ovea</groupId>
                             <artifactId>license</artifactId>
-                            <version>1-SNAPSHOT</version>
+                            <version>2</version>
                         </dependency>
                     </dependencies>
                 </plugin>
