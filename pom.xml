@@ -13,7 +13,7 @@
     <url>http://github.com/Ovea/${project.name}</url>
 
     <properties>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.7</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -60,19 +60,10 @@
             <timezone>-5</timezone>
             <roles>
                 <role>documentation</role>
+                <role>analyst</role>
             </roles>
         </developer>
     </developers>
-
-    <ciManagement>
-        <system>hudson</system>
-        <url>http://build.intradev.ovea.com/hudson/</url>
-    </ciManagement>
-
-    <issueManagement>
-        <system>github</system>
-        <url>http://github.com/Ovea/${project.name}/issues</url>
-    </issueManagement>
 
     <licenses>
         <license>
@@ -104,28 +95,26 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-beta-7</version>
+                <version>2.3</version>
             </extension>
         </extensions>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>1.0-beta-1</version>
+                    <version>1.1.1</version>
                     <configuration>
                         <rules>
                             <requireMavenVersion>
                                 <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
-                                <message>
-                                    Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.
-                                </message>
+                                <message>Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.</message>
                             </requireMavenVersion>
                         </rules>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
+                    <version>3.0</version>
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
@@ -133,7 +122,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.1</version>
+                    <version>1.4</version>
                     <configuration>
                         <useAgent>false</useAgent>
                         <keyname>F82FA7FE</keyname>
@@ -141,67 +130,87 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>2.3.2</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.1.1</version>
+                    <version>2.3</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>2.1.2</version>
+                    <version>2.2.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.3.1</version>
+                    <version>2.4</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jarsigner-plugin</artifactId>
                     <version>1.2</version>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.7</version>
-                    <configuration>
-                        <source>${jdk.version}</source>
-                        <encoding>UTF-8</encoding>
-                        <maxmemory>1g</maxmemory>
-                        <links>
-                            <link>http://java.sun.com/javase/6/docs/api/</link>
-                            <link>http://java.sun.com/javaee/5/docs/api</link>
-                        </links>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>2.7</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>2.4.1</version>
+                    <version>2.5</version>
+                    <configuration>
+                        <filesets>
+                            <fileset>
+                                <directory>${basedir}</directory>
+                                <includes>
+                                    <include>dependency-reduced-pom.xml</include>
+                                    <include>dependency-reduced-pom-*.xml</include>
+                                </includes>
+                            </fileset>
+                        </filesets>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>1.4</version>
+                    <version>2.0</version>
+                    <configuration>
+                        <shadedArtifactAttached>false</shadedArtifactAttached>
+                        <createSourcesJar>true</createSourcesJar>
+                        <createDependencyReducedPom>true</createDependencyReducedPom>
+                        <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                        <filters>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.1.0</version>
+                    <version>2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>com.mycila.maven-license-plugin</groupId>
                     <artifactId>maven-license-plugin</artifactId>
                     <version>1.9.0</version>
                     <configuration>
-                        <header>https://github.com/Ovea/testatoo-license/raw/master/LICENSE</header>
+                        <header>com/ovea/license.txt</header>
                         <strictCheck>true</strictCheck>
                         <properties>
                             <owner>Ovea</owner>
@@ -209,36 +218,119 @@
                             <email>dev@ovea.com</email>
                         </properties>
                         <excludes>
-                            <exclude>README</exclude>
+                            <exclude>**/README</exclude>
+                            <exclude>**/*.md</exclude>
                             <exclude>src/test/resources/**</exclude>
+                            <exclude>src/main/resources/**</exclude>
                             <exclude>**/*.ods</exclude>
                             <exclude>**/.gitignore</exclude>
                             <exclude>**/jndi.properties</exclude>
                             <exclude>**/logging.properties</exclude>
-                            <exclude>**/*.js</exclude>
+                            <exclude>**/dependency-reduced-pom.xml</exclude>
                             <exclude>**/*.swf</exclude>
                             <exclude>.idea/**</exclude>
-                            <exclude>**/*.md</exclude>
                             <exclude>**/pom.xml.releaseBackup</exclude>
                         </excludes>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.ovea</groupId>
+                            <artifactId>license</artifactId>
+                            <version>1-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jslint-maven-plugin</artifactId>
+                    <version>1.0.1</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <indentSize>4</indentSize>
+                        <strictWhiteSpaceIndentation>4</strictWhiteSpaceIndentation>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jslint</goal>
+                                <goal>test-jslint</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>yuicompressor-maven-plugin</artifactId>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.2</version>
+                </plugin>
+
+                <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>1.7</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.6</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.groovy.maven</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.gmaven</groupId>
                     <artifactId>gmaven-plugin</artifactId>
-                    <version>1.0</version>
+                    <version>1.4</version>
+                    <configuration>
+                        <source/>
+                        <providerSelection>2.0</providerSelection>
+                        <sourceEncoding>UTF-8</sourceEncoding>
+                        <targetBytecode>${jdk.version}</targetBytecode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generateStubs</goal>
+                                <goal>compile</goal>
+                                <goal>generateTestStubs</goal>
+                                <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-all</artifactId>
+                            <version>2.0.5</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.gmaven.runtime</groupId>
+                            <artifactId>gmaven-runtime-2.0</artifactId>
+                            <version>1.4</version>
+                            <exclusions>
+                                <exclusion>
+                                    <groupId>org.codehaus.groovy</groupId>
+                                    <artifactId>groovy-all</artifactId>
+                                </exclusion>
+                            </exclusions>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.ant</groupId>
+                            <artifactId>ant</artifactId>
+                            <version>1.8.3</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>9.0.0.M3</version>
+                    <configuration>
+                        <stopPort>8090</stopPort>
+                        <stopKey>ovea</stopKey>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -261,16 +353,6 @@
                     <execution>
                         <goals>
                             <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -323,32 +405,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <reporting>
-                <outputDirectory>target/site</outputDirectory>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.7</version>
-                        <configuration>
-                            <source>${jdk.version}</source>
-                            <encoding>UTF-8</encoding>
-                            <maxmemory>1g</maxmemory>
-                            <links>
-                                <link>http://java.sun.com/javase/6/docs/api/</link>
-                                <link>http://java.sun.com/javaee/5/docs/api</link>
-                            </links>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-jxr-plugin</artifactId>
-                        <version>2.2</version>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-project-info-reports-plugin</artifactId>
-                        <version>2.3</version>
-                    </plugin>
-                </plugins>
-            </reporting>
         </profile>
     </profiles>
 
