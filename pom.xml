@@ -21,8 +21,8 @@
         <connection>scm:git:git@github.com:Ovea/${project.name}.git</connection>
         <developerConnection>scm:git:git@github.com:Ovea/${project.name}.git</developerConnection>
         <url>http://github.com/Ovea/${project.name}</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <organization>
         <name>Ovea</name>
@@ -242,27 +242,60 @@
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>jslint-maven-plugin</artifactId>
-                    <version>1.0.1</version>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>yuicompressor-maven-plugin</artifactId>
+                    <version>1.3.2</version>
                     <configuration>
+                        <sourceDirectory>src/main/js</sourceDirectory>
+                        <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                        <nomunge>true</nomunge>
+                        <suffix>.min</suffix>
+                        <jswarn>false</jswarn>
+                        <disableOptimizations>false</disableOptimizations>
+                        <excludeResources>true</excludeResources>
+                        <excludeWarSourceDirectory>true</excludeWarSourceDirectory>
+                        <excludes>
+                            <exclude>${basedir}/src/main/webapp/**</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.googlecode.jslint4java</groupId>
+                    <artifactId>jslint4java-maven-plugin</artifactId>
+                    <version>2.0.2</version>
+                    <configuration>
+                        <sourceFolders>
+                            <sourceFolder>src/main/js</sourceFolder>
+                        </sourceFolders>
                         <encoding>UTF-8</encoding>
-                        <indentSize>4</indentSize>
-                        <strictWhiteSpaceIndentation>4</strictWhiteSpaceIndentation>
+                        <failOnError>true</failOnError>
                     </configuration>
                     <executions>
                         <execution>
+                            <id>jslint</id>
+                            <phase>process-resources</phase>
                             <goals>
-                                <goal>jslint</goal>
-                                <goal>test-jslint</goal>
+                                <goal>lint</goal>
                             </goals>
                         </execution>
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>net.alchim31.maven</groupId>
-                    <artifactId>yuicompressor-maven-plugin</artifactId>
-                    <version>1.3.2</version>
+                    <extensions>true</extensions>
+                    <groupId>com.github.searls</groupId>
+                    <artifactId>jasmine-maven-plugin</artifactId>
+                    <version>1.2.0.0</version>
+                    <configuration>
+                        <jsSrcDir>src/main/js</jsSrcDir>
+                        <jsTestSrcDir>src/test/js</jsTestSrcDir>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-plugin-plugin</artifactId>
@@ -285,7 +318,7 @@
                     <artifactId>gmaven-plugin</artifactId>
                     <version>1.4</version>
                     <configuration>
-                        <source />
+                        <source/>
                         <providerSelection>2.0</providerSelection>
                         <sourceEncoding>UTF-8</sourceEncoding>
                         <targetBytecode>${jdk.version}</targetBytecode>
