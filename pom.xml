@@ -4,7 +4,7 @@
 
     <groupId>com.ovea</groupId>
     <artifactId>ovea</artifactId>
-    <version>6-SNAPSHOT</version>
+    <version>6</version>
     <packaging>pom</packaging>
 
     <name>ovea-pom</name>
@@ -21,7 +21,8 @@
         <connection>scm:git:git@github.com:Ovea/${project.name}.git</connection>
         <developerConnection>scm:git:git@github.com:Ovea/${project.name}.git</developerConnection>
         <url>http://github.com/Ovea/${project.name}</url>
-    </scm>
+      <tag>ovea-6</tag>
+  </scm>
 
     <organization>
         <name>Ovea</name>
@@ -284,7 +285,7 @@
                     <artifactId>gmaven-plugin</artifactId>
                     <version>1.4</version>
                     <configuration>
-                        <source/>
+                        <source />
                         <providerSelection>2.0</providerSelection>
                         <sourceEncoding>UTF-8</sourceEncoding>
                         <targetBytecode>${jdk.version}</targetBytecode>
