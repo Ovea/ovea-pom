@@ -102,6 +102,18 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9</version>
+                    <configuration>
+                        <source>${jdk.version}</source>
+                        <encoding>UTF-8</encoding>
+                        <maxmemory>1g</maxmemory>
+                        <links>
+                            <link>http://docs.oracle.com/javase/7/docs/api</link>
+                        </links>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>1.1.1</version>
                     <configuration>
@@ -337,7 +349,7 @@
                     <artifactId>gmaven-plugin</artifactId>
                     <version>1.5</version>
                     <configuration>
-                        <source />
+                        <source/>
                         <providerSelection>2.0</providerSelection>
                         <sourceEncoding>UTF-8</sourceEncoding>
                         <targetBytecode>${jdk.version}</targetBytecode>
