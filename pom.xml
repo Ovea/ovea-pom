@@ -139,6 +139,7 @@
                     <configuration>
                         <useAgent>false</useAgent>
                         <keyname>F82FA7FE</keyname>
+                        <passphrase>${ovea.gpg.passphrase}</passphrase>
                     </configuration>
                 </plugin>
                 <plugin>
