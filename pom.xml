@@ -220,30 +220,18 @@
                     <version>2.4</version>
                 </plugin>
                 <plugin>
-                    <groupId>com.mycila.maven-license-plugin</groupId>
-                    <artifactId>maven-license-plugin</artifactId>
-                    <version>1.9.0</version>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>2.2</version>
                     <configuration>
                         <header>com/ovea/license.txt</header>
-                        <strictCheck>true</strictCheck>
                         <properties>
                             <owner>Ovea</owner>
                             <year>${project.inceptionYear}</year>
                             <email>dev@ovea.com</email>
                         </properties>
                         <excludes>
-                            <exclude>**/README</exclude>
-                            <exclude>**/*.md</exclude>
                             <exclude>src/test/resources/**</exclude>
-                            <exclude>src/main/resources/**</exclude>
-                            <exclude>**/*.ods</exclude>
-                            <exclude>**/.gitignore</exclude>
-                            <exclude>**/jndi.properties</exclude>
-                            <exclude>**/logging.properties</exclude>
-                            <exclude>**/dependency-reduced-pom.xml</exclude>
-                            <exclude>**/*.swf</exclude>
-                            <exclude>.idea/**</exclude>
-                            <exclude>**/pom.xml.releaseBackup</exclude>
                         </excludes>
                     </configuration>
                     <dependencies>
@@ -350,7 +338,7 @@
                     <artifactId>gmaven-plugin</artifactId>
                     <version>1.5</version>
                     <configuration>
-                        <source />
+                        <source/>
                         <providerSelection>2.0</providerSelection>
                         <sourceEncoding>UTF-8</sourceEncoding>
                         <targetBytecode>${jdk.version}</targetBytecode>
@@ -415,8 +403,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
