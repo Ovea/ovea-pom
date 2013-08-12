@@ -21,7 +21,7 @@
 
     <groupId>com.ovea</groupId>
     <artifactId>ovea</artifactId>
-    <version>12</version>
+    <version>13-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>ovea-pom</name>
